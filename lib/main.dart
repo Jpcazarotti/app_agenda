@@ -7,14 +7,14 @@ void main() {
       debugShowCheckedModeBanner: false,
       title: "App Agenda",
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xff202d36),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xff202d36),
           foregroundColor: Colors.white,
           titleTextStyle: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
+            fontSize: 25,
+            fontWeight: FontWeight.w600,
           ),
-          centerTitle: true,
         ),
       ),
       home: const HomePage(),
