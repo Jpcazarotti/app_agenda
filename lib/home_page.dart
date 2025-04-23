@@ -16,6 +16,10 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> _contatos = [];
   final TextEditingController _txtNomeController = TextEditingController();
   final TextEditingController _txtTelefoneController = TextEditingController();
+  final TextEditingController _txtEditarNomeController =
+      TextEditingController();
+  final TextEditingController _txtEditarTelefoneController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -89,6 +93,108 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void editContato(int index) {
+    final dadosContato = _contatos[index];
+
+    _txtEditarNomeController.text = dadosContato['nome'];
+    _txtEditarTelefoneController.text = dadosContato['telefone'];
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Editar Contato"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _txtEditarNomeController,
+                decoration: const InputDecoration(
+                  labelText: "Nome",
+                ),
+              ),
+              TextField(
+                controller: _txtEditarTelefoneController,
+                decoration: const InputDecoration(
+                  labelText: "Celular",
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Cancelar"),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    if (_txtEditarNomeController.text.isNotEmpty &
+                        _txtEditarTelefoneController.text.isNotEmpty) {
+                      await DatabaseHelper.editContatos(
+                        dadosContato['id'],
+                        _txtEditarNomeController.text,
+                        _txtEditarTelefoneController.text,
+                      );
+                      _txtEditarNomeController.clear();
+                      _txtEditarTelefoneController.clear();
+                      carregarContatos();
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    }
+                  },
+                  child: const Text("Salvar"),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> deleteContatos(int id) async {
+    await DatabaseHelper.deleteContatos(id);
+    carregarContatos();
+  }
+
+  void confirmarDelete(int id) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Excluir Contato"),
+          content: const Text("Tem certeza que deseja excluir este contato?"),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Cancelar"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    deleteContatos(id);
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Excluir"),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Listener(
@@ -101,7 +207,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Schedule"),
+          title: const Text("ContactHub"),
           centerTitle: true,
         ),
         drawer: const DrawerMenu(),
@@ -158,26 +264,44 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    subtitle: Text(
-                      contato['telefone'],
-                      style: const TextStyle(
-                        color: Colors.white54,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          contato['telefone'],
+                          style: const TextStyle(
+                            color: Colors.white54,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const Text(
+                          "Marília", 
+                          /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+                          style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            editContato(index);
+                          },
                           icon: const Icon(
                             Icons.edit_outlined,
                             color: Colors.blueGrey,
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            confirmarDelete(contato['id']);
+                          },
                           icon: const Icon(
                             Icons.delete_outline_rounded,
                             color: Colors.red,
@@ -191,30 +315,33 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        floatingActionButton: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(18)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white10,
-                blurRadius: 6,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          child: FloatingActionButton(
-            onPressed: () {
-              criarContato();
-            },
-            backgroundColor: const Color(0xff20c065),
-            foregroundColor: const Color(0xFF24333D),
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(18)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white10,
+                  blurRadius: 6,
+                  offset: Offset(0, 2),
+                ),
+              ],
             ),
-            child: const Icon(
-              Icons.person_add_rounded,
-              size: 35,
+            child: FloatingActionButton(
+              onPressed: () {
+                criarContato();
+              },
+              backgroundColor: const Color(0xff20c065),
+              foregroundColor: const Color(0xFF24333D),
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: const Icon(
+                Icons.person_add_rounded,
+                size: 35,
+              ),
             ),
           ),
         ),

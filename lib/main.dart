@@ -8,6 +8,10 @@ void main() {
       title: "App Agenda",
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xff202d36),
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: Color(0xff202d36),
+          elevation: 0,
+        ),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xff202d36),
           foregroundColor: Colors.white,

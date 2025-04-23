@@ -38,7 +38,25 @@ class DatabaseHelper {
     return await db.query(tableContato);
   }
 
-  static Future<void> editContatos() async {}
+  static Future<void> editContatos(int id, String nome, String telefone) async {
+    final db = await getDatabase();
+    await db.update(
+      tableContato,
+      {
+        'nome': nome,
+        'telefone': telefone,
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
 
-  static Future<void> deleteContatos() async {}
+  static Future<void> deleteContatos(int id) async {
+    final db = await getDatabase();
+    await db.delete(
+      tableContato,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
 }
