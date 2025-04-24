@@ -7,13 +7,13 @@ void main() {
       debugShowCheckedModeBanner: false,
       title: "App Agenda",
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xff202d36),
+        scaffoldBackgroundColor: const Color(0xff0a1014),
         drawerTheme: const DrawerThemeData(
-          backgroundColor: Color(0xff202d36),
+          backgroundColor: Color(0xff0a1014),
           elevation: 0,
         ),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xff202d36),
+          backgroundColor: Color(0xff0a1014),
           foregroundColor: Colors.white,
           titleTextStyle: TextStyle(
             fontSize: 25,

@@ -28,7 +28,7 @@ class DrawerMenu extends StatelessWidget {
             ),
           ),
           Card(
-            color: const Color(0xff202d36),
+            color: const Color(0xFF0E161B),
             shadowColor: Colors.white54,
             elevation: 0.5,
             child: ListTile(
@@ -51,7 +51,7 @@ class DrawerMenu extends StatelessWidget {
             ),
           ),
           Card(
-            color: const Color(0xff202d36),
+            color: const Color(0xFF0E161B),
             shadowColor: Colors.white54,
             elevation: 0.5,
             child: ListTile(
@@ -73,7 +73,7 @@ class DrawerMenu extends StatelessWidget {
             ),
           ),
           Card(
-            color: const Color(0xff202d36),
+            color: const Color(0xFF0E161B),
             shadowColor: Colors.white54,
             elevation: 0.5,
             child: ListTile(
@@ -99,7 +99,7 @@ class DrawerMenu extends StatelessWidget {
             thickness: 1,
           ),
           Card(
-            color: const Color(0xff202d36),
+            color: const Color(0xFF0E161B),
             shadowColor: Colors.white54,
             elevation: 0.5,
             child: ListTile(

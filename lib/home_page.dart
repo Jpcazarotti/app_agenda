@@ -3,7 +3,7 @@ import 'package:app_agenda/drawer_menu.dart';
 import 'package:flutter/material.dart';
 
 /* open_share_plus */
-/* mask_text_input_formatter */
+/* mask_text_input_formatter !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,10 +16,12 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> _contatos = [];
   final TextEditingController _txtNomeController = TextEditingController();
   final TextEditingController _txtTelefoneController = TextEditingController();
+  final TextEditingController _txtCidadeController = TextEditingController();
   final TextEditingController _txtEditarNomeController =
       TextEditingController();
   final TextEditingController _txtEditarTelefoneController =
       TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -40,22 +42,100 @@ class _HomePageState extends State<HomePage> {
       builder: (context) {
         return AlertDialog(
           title: const Text("Adicionar Contato"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _txtNomeController,
-                decoration: const InputDecoration(
-                  labelText: "Nome",
+          content: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _txtNomeController,
+                  decoration: const InputDecoration(
+                    labelText: "Nome *",
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "O campo Nome é obrigatório!";
+                    }
+                    return null;
+                  },
                 ),
-              ),
-              TextField(
-                controller: _txtTelefoneController,
-                decoration: const InputDecoration(
-                  labelText: "Celular",
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: TextFormField(
+                    controller: _txtTelefoneController,
+                    decoration: const InputDecoration(
+                      labelText: "Celular *",
+                      labelStyle: TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "O campo Celular é obrigatório!";
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-              ),
-            ],
+                TextFormField(
+                  controller: _txtCidadeController,
+                  decoration: const InputDecoration(
+                    labelText: "Cidade",
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
             Row(
@@ -64,19 +144,25 @@ class _HomePageState extends State<HomePage> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
+                    _txtNomeController.clear();
+                    _txtTelefoneController.clear();
+                    _txtCidadeController.clear();
                   },
                   child: const Text("Cancelar"),
                 ),
                 TextButton(
                   onPressed: () async {
-                    if (_txtNomeController.text.isNotEmpty &
+                    if (_formKey.currentState!.validate() &
+                        _txtNomeController.text.isNotEmpty &
                         _txtTelefoneController.text.isNotEmpty) {
                       await DatabaseHelper.createContatos(
                         _txtNomeController.text,
                         _txtTelefoneController.text,
+                        _txtCidadeController.text,
                       );
                       _txtNomeController.clear();
                       _txtTelefoneController.clear();
+                      _txtCidadeController.clear();
                       carregarContatos();
                       if (context.mounted) {
                         Navigator.of(context).pop();
@@ -217,7 +303,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(10),
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Color(0xFF24333D),
+                  color: Color(0xFF202d36),
                   borderRadius: BorderRadius.all(Radius.circular(40)),
                   boxShadow: [
                     BoxShadow(
@@ -275,10 +361,11 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        const Text(
-                          "Marília", 
-                          /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-                          style: TextStyle(
+                        Text(
+                          contato['cidade'] == null
+                              ? contato['cidade']
+                              : "Sem cidade",
+                          style: const TextStyle(
                             color: Colors.white54,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -333,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                 criarContato();
               },
               backgroundColor: const Color(0xff20c065),
-              foregroundColor: const Color(0xFF24333D),
+              foregroundColor: const Color(0xFF202d36),
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),

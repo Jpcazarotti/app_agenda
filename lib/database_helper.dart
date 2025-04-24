@@ -14,21 +14,23 @@ class DatabaseHelper {
           CREATE TABLE $tableContato (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT NOT NULL,
-            telefone TEXT NOT NULL
-          )       
+            telefone TEXT NOT NULL,
+            cidade TEXT 
+          )
         ''');
       },
       version: 1,
     );
   }
 
-  static Future<void> createContatos(String nome, String telefone) async {
+  static Future<void> createContatos(String nome, String telefone, String cidade) async {
     final db = await getDatabase();
     await db.insert(
       tableContato,
       {
         'nome': nome,
         'telefone': telefone,
+        'cidade': cidade,
       },
     );
   }
