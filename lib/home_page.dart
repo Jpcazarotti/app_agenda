@@ -1,6 +1,7 @@
 import 'package:app_agenda/database_helper.dart';
 import 'package:app_agenda/drawer_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 /* open_share_plus */
 /* mask_text_input_formatter !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
@@ -21,7 +22,14 @@ class _HomePageState extends State<HomePage> {
       TextEditingController();
   final TextEditingController _txtEditarTelefoneController =
       TextEditingController();
+  final TextEditingController _txtEditarCidadeController =
+      TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final mask = MaskTextInputFormatter(
+    mask: '+55 (0##) #####-####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
 
   @override
   void initState() {
@@ -87,6 +95,8 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   child: TextFormField(
                     controller: _txtTelefoneController,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [mask],
                     decoration: const InputDecoration(
                       labelText: "Celular *",
                       labelStyle: TextStyle(color: Colors.black),
@@ -115,8 +125,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "O campo Celular é obrigatório!";
+                      if (value == null || value.isEmpty || value.length < 19) {
+                        return "O campo Celular é obrigatório e deve estar completo!";
                       }
                       return null;
                     },
@@ -157,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                         _txtTelefoneController.text.isNotEmpty) {
                       await DatabaseHelper.createContatos(
                         _txtNomeController.text,
-                        _txtTelefoneController.text,
+                        mask.getMaskedText(),
                         _txtCidadeController.text,
                       );
                       _txtNomeController.clear();
@@ -184,6 +194,7 @@ class _HomePageState extends State<HomePage> {
 
     _txtEditarNomeController.text = dadosContato['nome'];
     _txtEditarTelefoneController.text = dadosContato['telefone'];
+    _txtEditarCidadeController.text = dadosContato['cidade'];
 
     showDialog(
       context: context,
@@ -197,12 +208,37 @@ class _HomePageState extends State<HomePage> {
                 controller: _txtEditarNomeController,
                 decoration: const InputDecoration(
                   labelText: "Nome",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: TextField(
+                  controller: _txtEditarTelefoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(
+                    labelText: "Celular",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               TextField(
-                controller: _txtEditarTelefoneController,
+                controller: _txtEditarCidadeController,
                 decoration: const InputDecoration(
-                  labelText: "Celular",
+                  labelText: "Cidade",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -225,9 +261,11 @@ class _HomePageState extends State<HomePage> {
                         dadosContato['id'],
                         _txtEditarNomeController.text,
                         _txtEditarTelefoneController.text,
+                        _txtEditarCidadeController.text,
                       );
                       _txtEditarNomeController.clear();
                       _txtEditarTelefoneController.clear();
+                      _txtEditarCidadeController.clear();
                       carregarContatos();
                       if (context.mounted) {
                         Navigator.of(context).pop();
@@ -354,7 +392,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          contato['telefone'],
+                          mask.maskText(contato['telefone']),
                           style: const TextStyle(
                             color: Colors.white54,
                             fontSize: 14,
@@ -362,9 +400,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Text(
-                          contato['cidade'] == null
-                              ? contato['cidade']
-                              : "Sem cidade",
+                          contato['cidade'] ?? "",
                           style: const TextStyle(
                             color: Colors.white54,
                             fontSize: 14,

@@ -40,13 +40,14 @@ class DatabaseHelper {
     return await db.query(tableContato);
   }
 
-  static Future<void> editContatos(int id, String nome, String telefone) async {
+  static Future<void> editContatos(int id, String nome, String telefone, String cidade) async {
     final db = await getDatabase();
     await db.update(
       tableContato,
       {
         'nome': nome,
         'telefone': telefone,
+        'cidade': cidade,
       },
       where: 'id = ?',
       whereArgs: [id],
