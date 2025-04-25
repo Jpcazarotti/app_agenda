@@ -62,4 +62,9 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
+
+  static Future<void> deleteAllContatos() async {
+    final db = await getDatabase();
+    await db.delete(tableContato);
+  }
 }

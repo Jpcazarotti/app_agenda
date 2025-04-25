@@ -2,9 +2,10 @@ import 'package:app_agenda/database_helper.dart';
 import 'package:app_agenda/drawer_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'dart:async';
 
-/* open_share_plus */
-/* mask_text_input_formatter !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+/* open_share_plus !!!!!!!!!!!!!*/
+/* mask_text_input_formatter*/
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,21 +16,29 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> _contatos = [];
+  List<Map<String, dynamic>> _contatosOriginais = [];
+
   final TextEditingController _txtNomeController = TextEditingController();
   final TextEditingController _txtTelefoneController = TextEditingController();
   final TextEditingController _txtCidadeController = TextEditingController();
+  final TextEditingController _txtSearchController = TextEditingController();
+
   final TextEditingController _txtEditarNomeController =
       TextEditingController();
   final TextEditingController _txtEditarTelefoneController =
       TextEditingController();
   final TextEditingController _txtEditarCidadeController =
       TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   final mask = MaskTextInputFormatter(
     mask: '+55 (0##) #####-####',
     filter: {"#": RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy,
   );
+
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -41,6 +50,7 @@ class _HomePageState extends State<HomePage> {
     final contatos = await DatabaseHelper.getContatos();
     setState(() {
       _contatos = contatos;
+      _contatosOriginais = contatos;
     });
   }
 
@@ -57,9 +67,10 @@ class _HomePageState extends State<HomePage> {
               children: [
                 TextFormField(
                   controller: _txtNomeController,
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     labelText: "Nome *",
-                    labelStyle: TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
@@ -97,9 +108,10 @@ class _HomePageState extends State<HomePage> {
                     controller: _txtTelefoneController,
                     keyboardType: TextInputType.phone,
                     inputFormatters: [mask],
+                    style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
                       labelText: "Celular *",
-                      labelStyle: TextStyle(color: Colors.black),
+                      labelStyle: TextStyle(color: Colors.white),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(10),
@@ -134,9 +146,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 TextFormField(
                   controller: _txtCidadeController,
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     labelText: "Cidade",
-                    labelStyle: TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
@@ -152,6 +165,17 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 TextButton(
+                  style: TextButton.styleFrom(
+                    fixedSize: const Size(110, 15),
+                    foregroundColor: Colors.white,
+                    textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    backgroundColor: const Color(0xFF202d36),
+                    elevation: 1,
+                    shadowColor: Colors.white24,
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                     _txtNomeController.clear();
@@ -161,6 +185,17 @@ class _HomePageState extends State<HomePage> {
                   child: const Text("Cancelar"),
                 ),
                 TextButton(
+                  style: TextButton.styleFrom(
+                    fixedSize: const Size(110, 15),
+                    foregroundColor: Colors.white,
+                    textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    backgroundColor: const Color(0xFF202d36),
+                    elevation: 1,
+                    shadowColor: Colors.white24,
+                  ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate() &
                         _txtNomeController.text.isNotEmpty &
@@ -206,8 +241,10 @@ class _HomePageState extends State<HomePage> {
             children: [
               TextField(
                 controller: _txtEditarNomeController,
+                style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                   labelText: "Nome",
+                  labelStyle: TextStyle(color: Colors.white),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
@@ -220,8 +257,10 @@ class _HomePageState extends State<HomePage> {
                 child: TextField(
                   controller: _txtEditarTelefoneController,
                   keyboardType: TextInputType.phone,
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     labelText: "Celular",
+                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
@@ -232,8 +271,10 @@ class _HomePageState extends State<HomePage> {
               ),
               TextField(
                 controller: _txtEditarCidadeController,
+                style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                   labelText: "Cidade",
+                  labelStyle: TextStyle(color: Colors.white),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
@@ -248,12 +289,34 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 TextButton(
+                  style: TextButton.styleFrom(
+                    fixedSize: const Size(110, 15),
+                    foregroundColor: Colors.white,
+                    textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    backgroundColor: const Color(0xFF202d36),
+                    elevation: 1,
+                    shadowColor: Colors.white24,
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                   child: const Text("Cancelar"),
                 ),
                 TextButton(
+                  style: TextButton.styleFrom(
+                    fixedSize: const Size(110, 15),
+                    foregroundColor: Colors.white,
+                    textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    backgroundColor: const Color(0xFF202d36),
+                    elevation: 1,
+                    shadowColor: Colors.white24,
+                  ),
                   onPressed: () async {
                     if (_txtEditarNomeController.text.isNotEmpty &
                         _txtEditarTelefoneController.text.isNotEmpty) {
@@ -299,12 +362,34 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 TextButton(
+                  style: TextButton.styleFrom(
+                    fixedSize: const Size(110, 15),
+                    foregroundColor: Colors.white,
+                    textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    backgroundColor: const Color(0xFF202d36),
+                    elevation: 1,
+                    shadowColor: Colors.white24,
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                   child: const Text("Cancelar"),
                 ),
                 TextButton(
+                  style: TextButton.styleFrom(
+                    fixedSize: const Size(110, 15),
+                    foregroundColor: Colors.white,
+                    textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    backgroundColor: const Color(0xFF202d36),
+                    elevation: 1,
+                    shadowColor: Colors.white24,
+                  ),
                   onPressed: () {
                     deleteContatos(id);
                     Navigator.of(context).pop();
@@ -317,6 +402,102 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  Future<void> deleteAllContatos() async {
+    await DatabaseHelper.deleteAllContatos();
+    carregarContatos();
+  }
+
+  void confirmarAllDelete() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Excluir Todos os Contatos"),
+            content: const Text(
+                "Tem certeza que deseja excluir todos os contatos? Esta ação não pode ser desfeita."),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      fixedSize: const Size(110, 15),
+                      foregroundColor: Colors.white,
+                      textStyle: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      backgroundColor: const Color(0xFF202d36),
+                      elevation: 1,
+                      shadowColor: Colors.white24,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Cancelar"),
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      fixedSize: const Size(110, 15),
+                      foregroundColor: Colors.white,
+                      textStyle: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      backgroundColor: const Color(0xFF202d36),
+                      elevation: 1,
+                      shadowColor: Colors.white24,
+                    ),
+                    onPressed: () {
+                      deleteAllContatos();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Excluir"),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  void searchContatos() {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+
+    _debounce = Timer(const Duration(milliseconds: 100), () {
+      String searchContato = _txtSearchController.text.toLowerCase();
+
+      if (searchContato.isEmpty) {
+        _restoreContatos();
+      } else {
+        _filterContatos(searchContato);
+      }
+    });
+  }
+
+  void _restoreContatos() {
+    if (_contatos.length != _contatosOriginais.length) {
+      setState(() {
+        _contatos = List.from(_contatosOriginais);
+      });
+    }
+  }
+
+  void _filterContatos(String searchContato) {
+    List<Map<String, dynamic>> filteredContatos =
+        _contatosOriginais.where((contato) {
+      return contato['nome'].toLowerCase().contains(searchContato) ||
+          contato['telefone'].toLowerCase().contains(searchContato) ||
+          (contato['cidade'] ?? "").toLowerCase().contains(searchContato);
+    }).toList();
+
+    if (_contatos != filteredContatos) {
+      setState(() {
+        _contatos = filteredContatos;
+      });
+    }
   }
 
   @override
@@ -334,7 +515,11 @@ class _HomePageState extends State<HomePage> {
           title: const Text("ContactHub"),
           centerTitle: true,
         ),
-        drawer: const DrawerMenu(),
+        drawer: DrawerMenu(
+          onDeleteAllContacts: () {
+            confirmarAllDelete();
+          },
+        ),
         body: Column(
           children: [
             Padding(
@@ -352,20 +537,38 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 child: TextField(
-                  controller: _txtNomeController,
-                  decoration: const InputDecoration(
-                    label: Text(
+                  autofocus: false,
+                  controller: _txtSearchController,
+                  style: const TextStyle(color: Colors.white),
+                  onChanged: (value) {
+                    searchContatos();
+                  },
+                  decoration: InputDecoration(
+                    label: const Text(
                       "Search",
                       style: TextStyle(
                         color: Colors.white30,
                       ),
                     ),
-                    suffixIcon: Icon(
-                      Icons.search_rounded,
-                      color: Colors.white30,
-                    ),
+                    suffixIcon: _txtSearchController.text.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear_rounded),
+                            color: Colors.white30,
+                            tooltip: "Limpar Pesquisa",
+                            onPressed: () {
+                              if (_txtSearchController.text.isNotEmpty) {
+                                _txtSearchController.clear();
+                                _restoreContatos();
+                                setState(() {});
+                              }
+                            },
+                          )
+                        : const Icon(
+                            Icons.search_rounded,
+                            color: Colors.white30,
+                          ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                   ),
                 ),
               ),

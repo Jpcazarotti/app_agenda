@@ -2,7 +2,9 @@ import 'package:app_agenda/home_page.dart';
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
-  const DrawerMenu({super.key});
+  final VoidCallback onDeleteAllContacts;
+
+  const DrawerMenu({super.key, required this.onDeleteAllContacts});
 
   @override
   Widget build(BuildContext context) {
@@ -116,11 +118,7 @@ class DrawerMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomePage(),
-                    ));
+                onDeleteAllContacts();
               },
             ),
           ),

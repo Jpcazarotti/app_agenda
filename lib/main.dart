@@ -20,6 +20,19 @@ void main() {
             fontWeight: FontWeight.w600,
           ),
         ),
+        dialogTheme: const DialogTheme(
+          backgroundColor: Color(0xFF202d36),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
+          ),
+          contentTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       ),
       home: const HomePage(),
     ),
