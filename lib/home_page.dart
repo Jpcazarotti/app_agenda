@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'dart:async';
 
+import 'package:open_share_plus/open.dart';
+
 /* open_share_plus !!!!!!!!!!!!!*/
 /* mask_text_input_formatter*/
 
@@ -635,6 +637,12 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
+                    onTap: () {
+                      Open.whatsApp(
+                        whatsAppNumber: contato['telefone'],
+                        text: "Olá ${contato['nome']}, tudo bem?",
+                      );
+                    },
                   );
                 },
               ),
