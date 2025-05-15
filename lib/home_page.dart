@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   final _formKey = GlobalKey<FormState>();
 
   final mask = MaskTextInputFormatter(
-    mask: '+55 (0##) #####-####',
+    mask: '+55 (##) #####-####',
     filter: {"#": RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy,
   );
