@@ -513,10 +513,7 @@ class _HomePageState extends State<HomePage> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("ContactHub"),
-          centerTitle: true,
-        ),
+        appBar: AppBar(title: const Text("ContactHub")),
         drawer: DrawerMenu(
           onDeleteAllContacts: () {
             confirmarAllDelete();

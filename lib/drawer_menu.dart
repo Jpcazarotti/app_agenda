@@ -1,4 +1,6 @@
+import 'package:app_agenda/about_page.dart';
 import 'package:app_agenda/home_page.dart';
+import 'package:app_agenda/policy_page.dart';
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
@@ -69,7 +71,7 @@ class DrawerMenu extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomePage(),
+                      builder: (context) => const AboutPage(),
                     ));
               },
             ),
@@ -91,7 +93,7 @@ class DrawerMenu extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomePage(),
+                      builder: (context) => const PolicyPage(),
                     ));
               },
             ),

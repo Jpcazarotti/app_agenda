@@ -19,6 +19,7 @@ void main() {
             fontSize: 25,
             fontWeight: FontWeight.w600,
           ),
+          centerTitle: true,
         ),
         dialogTheme: const DialogTheme(
           backgroundColor: Color(0xFF202d36),
