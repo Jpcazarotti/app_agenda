@@ -23,7 +23,8 @@ class DatabaseHelper {
     );
   }
 
-  static Future<void> createContatos(String nome, String telefone, String cidade) async {
+  static Future<void> createContatos(
+      String nome, String telefone, String cidade) async {
     final db = await getDatabase();
     await db.insert(
       tableContato,
@@ -37,10 +38,14 @@ class DatabaseHelper {
 
   static Future<List<Map<String, dynamic>>> getContatos() async {
     final db = await getDatabase();
-    return await db.query(tableContato);
+    return await db.query(
+      tableContato,
+      orderBy: 'nome asc',
+    );
   }
 
-  static Future<void> editContatos(int id, String nome, String telefone, String cidade) async {
+  static Future<void> editContatos(
+      int id, String nome, String telefone, String cidade) async {
     final db = await getDatabase();
     await db.update(
       tableContato,

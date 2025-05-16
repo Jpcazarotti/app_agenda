@@ -1,12 +1,11 @@
 import 'package:app_agenda/about_page.dart';
+import 'package:app_agenda/config_page.dart';
 import 'package:app_agenda/home_page.dart';
 import 'package:app_agenda/policy_page.dart';
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
-  final VoidCallback onDeleteAllContacts;
-
-  const DrawerMenu({super.key, required this.onDeleteAllContacts});
+  const DrawerMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +38,13 @@ class DrawerMenu extends StatelessWidget {
               leading: const Icon(
                 Icons.people_outline_rounded,
                 size: 26,
-                color: Colors.white,
+                color: Color(0xfff0ebe1),
               ),
               title: const Text(
-                'Contacts',
-                style: TextStyle(color: Colors.white),
+                'Contatos',
+                style: TextStyle(
+                  color: Color(0xfff0ebe1),
+                ),
               ),
               onTap: () {
                 Navigator.push(
@@ -61,11 +62,13 @@ class DrawerMenu extends StatelessWidget {
             child: ListTile(
               leading: const Icon(
                 Icons.info_outline,
-                color: Colors.white,
+                color: Color(0xfff0ebe1),
               ),
               title: const Text(
-                'About Us',
-                style: TextStyle(color: Colors.white),
+                'Sobre Nós',
+                style: TextStyle(
+                  color: Color(0xfff0ebe1),
+                ),
               ),
               onTap: () {
                 Navigator.push(
@@ -83,11 +86,13 @@ class DrawerMenu extends StatelessWidget {
             child: ListTile(
               leading: const Icon(
                 Icons.privacy_tip_outlined,
-                color: Colors.white,
+                color: Color(0xfff0ebe1),
               ),
               title: const Text(
-                'Privacy Policy',
-                style: TextStyle(color: Colors.white),
+                'Política de Privacidade',
+                style: TextStyle(
+                  color: Color(0xfff0ebe1),
+                ),
               ),
               onTap: () {
                 Navigator.push(
@@ -107,20 +112,23 @@ class DrawerMenu extends StatelessWidget {
             shadowColor: Colors.white54,
             elevation: 0.5,
             child: ListTile(
-              leading: Icon(
-                Icons.delete_forever_rounded,
-                size: 26,
-                color: Colors.redAccent[700],
+              leading: const Icon(
+                Icons.settings_outlined,
+                size: 25,
+                color: Color(0xfff0ebe1),
               ),
-              title: Text(
-                'Delete All Contacts',
+              title: const Text(
+                'Configurações',
                 style: TextStyle(
-                  color: Colors.redAccent[700],
-                  fontWeight: FontWeight.w500,
+                  color: Color(0xfff0ebe1),
                 ),
               ),
               onTap: () {
-                onDeleteAllContacts();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ConfigPage(),
+                    ));
               },
             ),
           ),

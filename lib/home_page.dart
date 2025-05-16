@@ -406,65 +406,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> deleteAllContatos() async {
-    await DatabaseHelper.deleteAllContatos();
-    carregarContatos();
-  }
-
-  void confirmarAllDelete() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Excluir Todos os Contatos"),
-            content: const Text(
-                "Tem certeza que deseja excluir todos os contatos? Esta ação não pode ser desfeita."),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      fixedSize: const Size(110, 15),
-                      foregroundColor: Colors.white,
-                      textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      backgroundColor: const Color(0xFF202d36),
-                      elevation: 1,
-                      shadowColor: Colors.white24,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Cancelar"),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      fixedSize: const Size(110, 15),
-                      foregroundColor: Colors.white,
-                      textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      backgroundColor: const Color(0xFF202d36),
-                      elevation: 1,
-                      shadowColor: Colors.white24,
-                    ),
-                    onPressed: () {
-                      deleteAllContatos();
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Excluir"),
-                  ),
-                ],
-              ),
-            ],
-          );
-        });
-  }
-
   void searchContatos() {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
 
@@ -514,11 +455,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: Scaffold(
         appBar: AppBar(title: const Text("ContactHub")),
-        drawer: DrawerMenu(
-          onDeleteAllContacts: () {
-            confirmarAllDelete();
-          },
-        ),
+        drawer: const DrawerMenu(),
         body: Column(
           children: [
             Padding(
@@ -539,12 +476,13 @@ class _HomePageState extends State<HomePage> {
                   autofocus: false,
                   controller: _txtSearchController,
                   style: const TextStyle(color: Colors.white),
+                  cursorColor: Colors.white70,
                   onChanged: (value) {
                     searchContatos();
                   },
                   decoration: InputDecoration(
                     label: const Text(
-                      "Search",
+                      "Buscar Contato",
                       style: TextStyle(
                         color: Colors.white30,
                       ),
