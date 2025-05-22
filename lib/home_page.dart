@@ -5,6 +5,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'dart:async';
 
 import 'package:open_share_plus/open.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /* open_share_plus !!!!!!!!!!!!!*/
 /* mask_text_input_formatter*/
@@ -19,6 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> _contatos = [];
   List<Map<String, dynamic>> _contatosOriginais = [];
+
+  String _textoPadrao = "";
 
   final TextEditingController _txtNomeController = TextEditingController();
   final TextEditingController _txtTelefoneController = TextEditingController();
@@ -572,10 +575,16 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    onTap: () {
+                    onTap: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      _textoPadrao = prefs.getString('texto_padrao') ??
+                          "Olá [nome], tudo bem?";
+                      _textoPadrao =
+                          _textoPadrao.replaceAll("[nome]", contato['nome']);
                       Open.whatsApp(
                         whatsAppNumber: contato['telefone'],
-                        text: "Olá ${contato['nome']}, tudo bem?",
+                        text: _textoPadrao,
                       );
                     },
                   );

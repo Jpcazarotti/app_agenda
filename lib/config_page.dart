@@ -11,7 +11,21 @@ class ConfigPage extends StatefulWidget {
 
 class _ConfigPageState extends State<ConfigPage> {
   final TextEditingController _txtTextoPadraoController =
-      TextEditingController();
+      TextEditingController(text: "Olá, [nome] tudo bem?");
+
+  @override
+  void initState() {
+    super.initState();
+    carregarTextoPadrao();
+  }
+
+  void carregarTextoPadrao() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? textoPadrao = prefs.getString('texto_padrao');
+    if (textoPadrao != null) {
+      _txtTextoPadraoController.text = textoPadrao;
+    }
+  }
 
   void salvarTextoPadrao() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -20,6 +34,21 @@ class _ConfigPageState extends State<ConfigPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("Texto padrão salvo com sucesso!"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void voltarTxtPadrao() async {
+    setState(() {
+      _txtTextoPadraoController.text = "Olá, [nome] tudo bem?";
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('texto_padrao', _txtTextoPadraoController.text);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Texto padrão restaurado!"),
         duration: Duration(seconds: 2),
       ),
     );
@@ -101,13 +130,34 @@ class _ConfigPageState extends State<ConfigPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Alterar Texto Padrão",
-                style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Alterar Texto Padrão",
+                    style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      voltarTxtPadrao();
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Text(
+                        "Restaurar Padrão",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -125,17 +175,34 @@ class _ConfigPageState extends State<ConfigPage> {
                       ),
                     ],
                   ),
-                  child: TextField(
-                    autofocus: false,
-                    controller: _txtTextoPadraoController,
-                    keyboardType: TextInputType.multiline,
-                    minLines: 1,
-                    maxLines: 4,
-                    cursorColor: Colors.white70,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        textSelectionTheme: TextSelectionThemeData(
+                      selectionColor: Colors.green[400],
+                      selectionHandleColor: Colors.white70,
+                    )),
+                    child: TextField(
+                      autofocus: false,
+                      controller: _txtTextoPadraoController,
+                      keyboardType: TextInputType.multiline,
+                      minLines: 1,
+                      maxLines: 4,
+                      cursorColor: Colors.white70,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                        label: Text(
+                          "Texto padrão",
+                          style: TextStyle(
+                            color: Colors.white70,
+                          ),
+                        ),
+                        hintText: "Digite o texto padrão",
+                        hintStyle: TextStyle(
+                          color: Colors.white24,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -165,15 +232,26 @@ class _ConfigPageState extends State<ConfigPage> {
                   ),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  """Use "[nome]" no texto para que o nome da pessoa seja inserido automaticamente na mensagem.""",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[700],
+                  ),
+                ),
+              ),
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
               const Divider(
                 color: Colors.white24,
                 thickness: 1,
               ),
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
               Row(
                 children: [
