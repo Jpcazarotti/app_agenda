@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigPage extends StatefulWidget {
-  const ConfigPage({super.key});
+  final VoidCallback onCarregarContatos;
+
+  const ConfigPage({super.key, required this.onCarregarContatos});
 
   @override
   State<ConfigPage> createState() => _ConfigPageState();
@@ -56,6 +58,7 @@ class _ConfigPageState extends State<ConfigPage> {
 
   Future<void> deleteAllContatos() async {
     await DatabaseHelper.deleteAllContatos();
+    widget.onCarregarContatos();
   }
 
   void confirmarAllDelete() {
@@ -218,6 +221,8 @@ class _ConfigPageState extends State<ConfigPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
+                        elevation: 1,
+                        shadowColor: Colors.white54,
                       ),
                       onPressed: () {
                         salvarTextoPadrao();
@@ -263,6 +268,8 @@ class _ConfigPageState extends State<ConfigPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
+                        elevation: 1,
+                        shadowColor: Colors.white54,
                       ),
                       onPressed: () {
                         confirmarAllDelete();

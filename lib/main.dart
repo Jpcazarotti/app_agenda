@@ -7,6 +7,17 @@ void main() {
       debugShowCheckedModeBanner: false,
       title: "App Agenda",
       theme: ThemeData(
+        colorScheme: const ColorScheme(
+          brightness: Brightness.dark,
+          primary: Color(0xff20c065),
+          onPrimary: Colors.white,
+          secondary: Color(0xff20c065),
+          onSecondary: Colors.white,
+          error: Colors.red,
+          onError: Colors.white,
+          surface: Color(0xff0a1014),
+          onSurface: Colors.white,
+        ),
         scaffoldBackgroundColor: const Color(0xff0a1014),
         drawerTheme: const DrawerThemeData(
           backgroundColor: Color(0xff0a1014),

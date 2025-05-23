@@ -191,6 +191,12 @@ class _HomePageState extends State<HomePage> {
                           Radius.circular(10),
                         ),
                       ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -296,6 +302,12 @@ class _HomePageState extends State<HomePage> {
                         Radius.circular(10),
                       ),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -322,6 +334,12 @@ class _HomePageState extends State<HomePage> {
                           Radius.circular(10),
                         ),
                       ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -342,6 +360,12 @@ class _HomePageState extends State<HomePage> {
                     labelText: "Cidade",
                     labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -520,7 +544,11 @@ class _HomePageState extends State<HomePage> {
       },
       child: Scaffold(
         appBar: AppBar(title: const Text("ContactHub")),
-        drawer: const DrawerMenu(),
+        drawer: DrawerMenu(
+          onCarregarContatos: () {
+            carregarContatos();
+          },
+        ),
         body: Column(
           children: [
             Padding(

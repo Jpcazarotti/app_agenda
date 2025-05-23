@@ -5,7 +5,9 @@ import 'package:app_agenda/policy_page.dart';
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
-  const DrawerMenu({super.key});
+  final VoidCallback onCarregarContatos;
+
+  const DrawerMenu({super.key, required this.onCarregarContatos});
 
   @override
   Widget build(BuildContext context) {
@@ -125,10 +127,15 @@ class DrawerMenu extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ConfigPage(),
-                    ));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ConfigPage(
+                      onCarregarContatos: () {
+                        onCarregarContatos();
+                      },
+                    ),
+                  ),
+                );
               },
             ),
           ),
