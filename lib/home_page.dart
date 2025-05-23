@@ -70,52 +70,20 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextFormField(
-                  controller: _txtNomeController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                    labelText: "Nome *",
-                    labelStyle: TextStyle(color: Colors.white),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    textSelectionTheme: TextSelectionThemeData(
+                      selectionColor: Colors.green[800],
+                      selectionHandleColor: Colors.white70,
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "O campo Nome é obrigatório!";
-                    }
-                    return null;
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
                   child: TextFormField(
-                    controller: _txtTelefoneController,
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: [mask],
+                    autofocus: false,
+                    controller: _txtNomeController,
                     style: const TextStyle(color: Colors.white),
+                    cursorColor: Colors.white70,
                     decoration: const InputDecoration(
-                      labelText: "Celular *",
+                      labelText: "Nome *",
                       labelStyle: TextStyle(color: Colors.white),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -142,22 +110,86 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty || value.length < 19) {
-                        return "O campo Celular é obrigatório e deve estar completo!";
+                      if (value == null || value.isEmpty) {
+                        return "O campo Nome é obrigatório!";
                       }
                       return null;
                     },
                   ),
                 ),
-                TextFormField(
-                  controller: _txtCidadeController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                    labelText: "Cidade",
-                    labelStyle: TextStyle(color: Colors.white),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      textSelectionTheme: TextSelectionThemeData(
+                        selectionColor: Colors.green[800],
+                        selectionHandleColor: Colors.white70,
+                      ),
+                    ),
+                    child: TextFormField(
+                      autofocus: false,
+                      controller: _txtTelefoneController,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [mask],
+                      style: const TextStyle(color: Colors.white),
+                      cursorColor: Colors.white70,
+                      decoration: const InputDecoration(
+                        labelText: "Celular *",
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 19) {
+                          return "O campo Celular é obrigatório e deve estar completo!";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    textSelectionTheme: TextSelectionThemeData(
+                      selectionColor: Colors.green[800],
+                      selectionHandleColor: Colors.white70,
+                    ),
+                  ),
+                  child: TextFormField(
+                    autofocus: false,
+                    controller: _txtCidadeController,
+                    style: const TextStyle(color: Colors.white),
+                    cursorColor: Colors.white70,
+                    decoration: const InputDecoration(
+                      labelText: "Cidade",
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
                       ),
                     ),
                   ),
@@ -244,27 +276,20 @@ class _HomePageState extends State<HomePage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(
-                controller: _txtEditarNomeController,
-                style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  labelText: "Nome",
-                  labelStyle: TextStyle(color: Colors.white),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  textSelectionTheme: TextSelectionThemeData(
+                    selectionColor: Colors.green[800],
+                    selectionHandleColor: Colors.white70,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: TextField(
-                  controller: _txtEditarTelefoneController,
-                  keyboardType: TextInputType.phone,
+                  autofocus: false,
+                  controller: _txtEditarNomeController,
                   style: const TextStyle(color: Colors.white),
+                  cursorColor: Colors.white70,
                   decoration: const InputDecoration(
-                    labelText: "Celular",
+                    labelText: "Nome",
                     labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -274,15 +299,52 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              TextField(
-                controller: _txtEditarCidadeController,
-                style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  labelText: "Cidade",
-                  labelStyle: TextStyle(color: Colors.white),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    textSelectionTheme: TextSelectionThemeData(
+                      selectionColor: Colors.green[800],
+                      selectionHandleColor: Colors.white70,
+                    ),
+                  ),
+                  child: TextField(
+                    autofocus: false,
+                    controller: _txtEditarTelefoneController,
+                    keyboardType: TextInputType.phone,
+                    style: const TextStyle(color: Colors.white),
+                    cursorColor: Colors.white70,
+                    decoration: const InputDecoration(
+                      labelText: "Celular",
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  textSelectionTheme: TextSelectionThemeData(
+                    selectionColor: Colors.green[800],
+                    selectionHandleColor: Colors.white70,
+                  ),
+                ),
+                child: TextField(
+                  autofocus: false,
+                  controller: _txtEditarCidadeController,
+                  style: const TextStyle(color: Colors.white),
+                  cursorColor: Colors.white70,
+                  decoration: const InputDecoration(
+                    labelText: "Cidade",
+                    labelStyle: TextStyle(color: Colors.white),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
                     ),
                   ),
                 ),
@@ -475,40 +537,49 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                child: TextField(
-                  autofocus: false,
-                  controller: _txtSearchController,
-                  style: const TextStyle(color: Colors.white),
-                  cursorColor: Colors.white70,
-                  onChanged: (value) {
-                    searchContatos();
-                  },
-                  decoration: InputDecoration(
-                    label: const Text(
-                      "Buscar Contato",
-                      style: TextStyle(
-                        color: Colors.white30,
-                      ),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    textSelectionTheme: TextSelectionThemeData(
+                      selectionColor: Colors.green[800],
+                      selectionHandleColor: Colors.white70,
                     ),
-                    suffixIcon: _txtSearchController.text.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.clear_rounded),
-                            color: Colors.white30,
-                            tooltip: "Limpar Pesquisa",
-                            onPressed: () {
-                              if (_txtSearchController.text.isNotEmpty) {
-                                _txtSearchController.clear();
-                                _restoreContatos();
-                                setState(() {});
-                              }
-                            },
-                          )
-                        : const Icon(
-                            Icons.search_rounded,
-                            color: Colors.white30,
-                          ),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  ),
+                  child: TextField(
+                    autofocus: false,
+                    controller: _txtSearchController,
+                    style: const TextStyle(color: Colors.white),
+                    cursorColor: Colors.white70,
+                    onChanged: (value) {
+                      searchContatos();
+                    },
+                    decoration: InputDecoration(
+                      label: const Text(
+                        "Buscar Contato",
+                        style: TextStyle(
+                          color: Colors.white30,
+                        ),
+                      ),
+                      suffixIcon: _txtSearchController.text.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear_rounded),
+                              color: Colors.white30,
+                              tooltip: "Limpar Pesquisa",
+                              onPressed: () {
+                                if (_txtSearchController.text.isNotEmpty) {
+                                  _txtSearchController.clear();
+                                  _restoreContatos();
+                                  setState(() {});
+                                }
+                              },
+                            )
+                          : const Icon(
+                              Icons.search_rounded,
+                              color: Colors.white30,
+                            ),
+                      border: InputBorder.none,
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
+                    ),
                   ),
                 ),
               ),
@@ -519,9 +590,10 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   final contato = _contatos[index];
                   return ListTile(
-                    leading: const Icon(
-                      Icons.messenger_rounded,
-                      color: Colors.white70,
+                    leading: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Image.asset('assets/icon-whats.png'),
                     ),
                     title: Text(
                       contato['nome'],
@@ -542,14 +614,16 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        Text(
-                          contato['cidade'] ?? "",
-                          style: const TextStyle(
-                            color: Colors.white54,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
+                        contato['cidade'] == ""
+                            ? const SizedBox()
+                            : Text(
+                                contato['cidade'] ?? "",
+                                style: const TextStyle(
+                                  color: Color(0xff20c065),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              )
                       ],
                     ),
                     trailing: Row(

@@ -177,10 +177,11 @@ class _ConfigPageState extends State<ConfigPage> {
                   ),
                   child: Theme(
                     data: Theme.of(context).copyWith(
-                        textSelectionTheme: TextSelectionThemeData(
-                      selectionColor: Colors.green[400],
-                      selectionHandleColor: Colors.white70,
-                    )),
+                      textSelectionTheme: TextSelectionThemeData(
+                        selectionColor: Colors.green[800],
+                        selectionHandleColor: Colors.white70,
+                      ),
+                    ),
                     child: TextField(
                       autofocus: false,
                       controller: _txtTextoPadraoController,
